@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -38,7 +39,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-
+newPlayer = Player('Bot', room['outside'])
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +50,78 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+print(r"""\
+__¶_____________________________________________¶
+__¶¶___________________________________________¶¶
+__¶¶¶¶________________________________________¶¶¶
+__¶¶_¶¶_____________________________________¶¶_¶¶
+__¶¶__¶¶___________________________________¶¶__¶¶
+__¶¶_¶_¶¶_________________________________¶¶_¶_¶¶
+__¶¶__¶__¶_______________________________¶¶_¶__¶¶
+__¶¶___¶__¶¶____________________________¶__¶___¶¶
+___¶¶___¶¶_¶¶_________________________¶¶__¶___¶¶
+____¶¶___¶¶_¶¶_______________________¶¶_¶¶___¶¶¶
+_____¶¶___¶¶__¶_____________________¶¶_¶¶____¶¶
+______¶¶___¶¶__¶¶__________________¶__¶¶___¶¶¶
+_______¶¶____¶¶_¶¶_______________¶¶_¶¶¶____¶¶
+________¶¶____¶¶_¶¶_____________¶¶_¶¶____¶¶¶
+_________¶¶____¶¶__¶¶__________¶__¶¶____¶¶¶
+__________¶¶_____¶¶_¶¶_______¶¶__¶¶____¶¶
+___________¶¶_____¶¶_¶¶_____¶¶_¶¶_____¶¶
+_____________¶¶____¶¶__¶¶__¶__¶¶____¶¶¶
+______________¶¶¶____¶¶_¶¶¶_¶¶¶___¶¶¶
+________________¶¶¶___¶¶__¶¶¶___¶¶¶¶
+__________________¶¶¶___¶¶_¶¶__¶¶¶
+____________________¶¶¶__¶¶_¶¶¶¶
+____________________¶_¶¶¶__¶¶_¶¶___¶¶¶¶¶¶
+_________¶¶¶¶¶¶¶¶_¶¶_¶¶_¶¶__¶¶_¶¶¶¶¶¶¶¶_¶¶
+________¶¶_¶¶¶¶¶¶¶¶_¶¶_¶¶¶¶¶__¶¶¶¶¶¶__¶¶_¶¶
+________¶¶¶¶___¶¶¶¶¶__¶¶___¶¶¶¶¶¶¶¶¶¶__¶¶¶¶
+_____________¶¶¶¶¶¶¶¶¶_______¶¶¶¶¶_¶¶¶
+___________¶¶¶_¶_¶¶¶¶¶______¶¶¶_¶¶¶_¶¶¶¶
+__________¶¶¶_¶_¶¶__¶¶¶_____¶¶¶__¶¶¶__¶¶¶
+_________¶¶_¶¶_¶¶__¶¶_¶_____¶_¶¶__¶¶_¶_¶¶¶
+_______¶¶¶_¶_¶¶¶__¶¶_¶¶_____¶¶_¶___¶¶_¶¶_¶¶¶
+______¶¶_¶¶_¶¶¶____¶¶¶_______¶¶¶_____¶¶_¶_¶¶¶¶
+_¶¶¶¶¶¶_¶_¶¶¶_________________________¶¶_¶¶_¶¶¶¶¶¶
+¶¶____¶¶_¶¶¶____________________________¶¶_¶¶____¶
+¶¶_____¶¶¶¶______________________________¶¶_____¶¶
+_¶¶¶____¶¶_______________________________¶____¶¶¶
+__¶¶¶¶__¶¶_______________________________¶¶¶¶¶¶¶
+____¶¶¶¶¶_________________________________¶¶¶
+
+""")
+
+while True:
+    action = input('Enter an action: ')
+    if action == 'start':
+        if newPlayer.current_room:
+            print(f'{newPlayer.current_room}')
+        else:
+            print('no path in that direction! Try a different action...')
+    if action == 'n':
+        if newPlayer.current_room.n_to:
+            newPlayer.current_room = newPlayer.current_room.n_to
+            print(f'{newPlayer.current_room}')
+        else:
+            print('you cannot go north')
+    if action == 's':
+        if newPlayer.current_room.s_to:
+            newPlayer.current_room = newPlayer.current_room.s_to
+            print(f'{newPlayer.current_room}')
+        else:
+            print('no path in that direction! Try a different action...')
+    if action == 'e':
+        if newPlayer.current_room.e_to:
+            newPlayer.current_room = newPlayer.current_room.e_to
+            print(f'{newPlayer.current_room}')
+        else:
+            print('no path in that direction! Try a different action...')
+    if action == 'w':
+        if newPlayer.current_room.w_to:
+            newPlayer.current_room = newPlayer.current_room.w_to
+            print(f'{newPlayer.current_room}')
+        else:
+            print('no path in that direction! Try a different action...')
+    if action == 'q':
+        exit()
