@@ -41,11 +41,11 @@ _¶¶¶____¶¶_______________________________¶____¶¶¶
 __¶¶¶¶__¶¶_______________________________¶¶¶¶¶¶¶
 ____¶¶¶¶¶_________________________________¶¶¶
 -----------------------------------------------------------------------------------
-    Commands: 
-       start => starts the game                                                 
+    Commands:
+       start => starts the game
        look => see items in a room
-       take, get => followed by item's name will add it to your inventory        
-       drop => followed by item's name will remove it from inventory    
+       take, get => followed by item's name will add it to your inventory
+       drop => followed by item's name will remove it from inventory
        inv => see items in your inventory
           n => go north
           s => go south
@@ -73,7 +73,16 @@ to north. The smell of gold permeates the air."""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
 chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+earlier adventurers.\n There is door to the east and a narrow path to the west... \n make a choice!"""),
+
+    'secret': Room("secret room", """ There is a corpse on the ground across the room, \n must be another adventurer.
+     You notice a big door as you approach to inspect it \n you step on a stone that triggers the flame trap and burns you alive... \n YOU ARE DEAD!"""),
+
+    'narrow_path': Room("narrow_path", """ you walk through the narrow path and you notice it's a long passage... \n
+      you keep waling to see where it ends... \n
+      you finally get to the end and see a chest, \n 
+      you walk towards it hoping that you can find something in it, \n
+      you open the chest and see it's filled with gold!"""),
 }
 
 
@@ -87,18 +96,26 @@ room['overlook'].s_to = room['foyer']
 room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
+room['secret'].w_to = room['treasure']
+room['treasure'].e_to = room['secret']
+room['narrow_path'].e_to = room['treasure']
+room['treasure'].w_to = room['narrow_path']
 
 sword = Item("sword", "battle sword")
 axe = Item("axe", "battle axe")
 torch = Item("torch", "lights up the room")
-dagger = Item("dagger", "good for cutting ropes, not ideal for battle")
+dagger = Item("dagger", "good for stealth kills, not ideal for battle")
 gold = Item("gold", "for buying items and trading")
+silver = Item("silver", "worths less than gold")
+key = Item("key", "opens a locked door")
 
 room['outside'].items = []
-room['foyer'].items = [torch]
+room['foyer'].items = [torch, silver]
 room['overlook'].items = [dagger]
 room['narrow'].items = [axe, sword]
-room['treasure'].items = [gold]
+room['treasure'].items = [gold, key]
+room['secret'].items = []
+room['narrow_path'].items = []
 
 #
 # Main
@@ -183,5 +200,11 @@ while True:
                 newPlayer.current_room.on_drop(inv)
             else:
                 print('item is not in inventory')
+    if newPlayer.current_room == room['secret']:
+        print("Game Over!")
+        exit()
+    if newPlayer.current_room == room['narrow_path']:
+        print("\nCongratulations! You successfully finished the game!")
+        exit()
     if action == 'q':
         exit()
